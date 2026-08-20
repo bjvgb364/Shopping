@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Check, X, Plus, Settings2 } from "lucide-react";
-import { CREAM } from "../theme";
+import { CREAM, MUTED } from "../theme";
 import styles from "../styles";
 
 export function ShoppingScreen({ list, usuals, toggleItem, removeItem, addItem, addUsual, dismissUsual, onManageRegulars }) {
@@ -67,7 +67,7 @@ export function ShoppingScreen({ list, usuals, toggleItem, removeItem, addItem, 
                 <button style={styles.checkbox} onClick={() => toggleItem(item.id)}>{item.checked && <Check size={13} color={CREAM} />}</button>
                 <span style={{ ...styles.shoppingItemName, ...(item.checked ? styles.shoppingItemChecked : {}) }}>{item.name}</span>
                 {(item.forRecipe || item.reason) && <span style={styles.shoppingForRecipe}>{item.forRecipe || item.reason}</span>}
-                <button style={styles.shoppingRemoveBtn} onClick={() => removeItem(item.id)}><X size={14} color="#C9BEB0" /></button>
+                <button style={styles.shoppingRemoveBtn} onClick={() => removeItem(item.id)}><X size={14} color={MUTED} /></button>
               </div>
             ))}
           </div>

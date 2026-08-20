@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { ChevronRight, Sparkles, ArrowLeft, Target, Check, X } from "lucide-react";
-import { AMBER, CREAM } from "../theme";
+import { RED_LIGHT, CREAM, FRAME } from "../theme";
 import { MOCK_DETECTED, ZONES, matchesItemName, defaultZoneFor } from "../data";
 import styles from "../styles";
 
@@ -85,7 +85,7 @@ export function ScanScreen({ usuals = [], onBack, onComplete }) {
   const missingRegulars = regularsReport.filter((r) => !r.found);
 
   return (
-    <div style={{ ...styles.screen, background: "#1A1512" }}>
+    <div style={{ ...styles.screen, background: FRAME }}>
       <div style={styles.scanTopBar}>
         <button style={styles.iconBtnDark} onClick={onBack}><ArrowLeft size={20} color={CREAM} /></button>
         <span style={styles.scanTopLabel}>Scan your {zone.toLowerCase()}</span>
@@ -134,7 +134,7 @@ export function ScanScreen({ usuals = [], onBack, onComplete }) {
             </>
           )}
           {phase === "done" && (
-            <div style={styles.viewfinderCenter}><Sparkles size={32} color={AMBER} /></div>
+            <div style={styles.viewfinderCenter}><Sparkles size={32} color={RED_LIGHT} /></div>
           )}
         </div>
 

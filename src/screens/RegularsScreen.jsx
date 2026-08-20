@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Plus, X } from "lucide-react";
-import { CREAM } from "../theme";
+import { CREAM, MUTED } from "../theme";
 import { ZONES, ZONE_ABBR, guessEmoji } from "../data";
 import styles from "../styles";
 import { ScreenHeader } from "../components/Nav";
@@ -50,7 +50,7 @@ export function RegularsScreen({ usuals, onBack, onAdd, onRemove, onSetZone }) {
                 </button>
               ))}
             </div>
-            <button style={styles.shoppingRemoveBtn} onClick={() => onRemove(u.name)}><X size={14} color="#C9BEB0" /></button>
+            <button style={styles.shoppingRemoveBtn} onClick={() => onRemove(u.name)}><X size={14} color={MUTED} /></button>
           </div>
         ))}
       </div>

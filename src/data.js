@@ -1,4 +1,4 @@
-import { AMBER, GREEN, SUB } from "./theme";
+import { GREEN, SUB, RED, RED_DARK } from "./theme";
 
 /* ===========================================================
    STORAGE KEYS
@@ -169,7 +169,7 @@ export function scoreRecipe(recipe, inventoryNames) {
 
 export function matchColor(match) {
   if (match >= 90) return GREEN;
-  if (match >= 75) return AMBER;
-  if (match >= 50) return "#C98A3A";
+  if (match >= 75) return RED;
+  if (match >= 50) return RED_DARK;
   return SUB;
 }

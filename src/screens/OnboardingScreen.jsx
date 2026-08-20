@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { ChevronRight } from "lucide-react";
-import { RED } from "../theme";
+import { RED, LINE } from "../theme";
 import styles from "../styles";
 
 export function OnboardingScreen({ preferences, onComplete, onSkip }) {
@@ -65,7 +65,7 @@ export function OnboardingScreen({ preferences, onComplete, onSkip }) {
       <div style={{ padding: "40px 24px 0" }}>
         <div style={styles.onboardDots}>
           {steps.map((_, i) => (
-            <div key={i} style={{ ...styles.onboardDot, background: i <= step ? RED : "#EFE7D8" }} />
+            <div key={i} style={{ ...styles.onboardDot, background: i <= step ? RED : LINE }} />
           ))}
         </div>
         <p style={styles.eyebrow}>Quick setup</p>

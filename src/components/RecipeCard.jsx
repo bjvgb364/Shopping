@@ -1,5 +1,5 @@
 import { Clock, Users, Star } from "lucide-react";
-import { RED } from "../theme";
+import { RED, MUTED } from "../theme";
 import { matchColor } from "../data";
 import styles from "../styles";
 
@@ -13,7 +13,7 @@ export function RecipeCard({ recipe, match, onClick, compact, isSaved, onSave })
         <div style={styles.recipeCardTitleRow}>
           <h3 style={styles.recipeCardTitle}>{recipe.name}</h3>
           {onSave && (
-            <span onClick={(e) => { e.stopPropagation(); onSave(); }} style={{ ...styles.saveIcon, color: isSaved ? RED : "#C9BEB0" }}>♥</span>
+            <span onClick={(e) => { e.stopPropagation(); onSave(); }} style={{ ...styles.saveIcon, color: isSaved ? RED : MUTED }}>♥</span>
           )}
         </div>
         <div style={styles.recipeMetaRow}>
