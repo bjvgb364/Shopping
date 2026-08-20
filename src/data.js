@@ -100,11 +100,27 @@ export const RECIPE_LIBRARY = [
 ];
 
 export const USUALS_SEED = [
-  { name: "Milk", emoji: "🥛", reason: "Not seen in your last 2 scans", frequency: "Every 5–7 days", confidence: "High" },
-  { name: "Bread", emoji: "🍞", reason: "Usually purchased every 6 days", frequency: "Every 6 days", confidence: "Medium" },
-  { name: "Coffee", emoji: "☕", reason: "Usually purchased every 30 days", frequency: "Every 30 days", confidence: "High" },
-  { name: "Butter", emoji: "🧈", reason: "Not seen in your last scan", frequency: "Every 14 days", confidence: "Medium" },
+  { name: "Milk", emoji: "🥛", zone: "Fridge", reason: "Not seen in your last 2 scans", frequency: "Every 5–7 days", confidence: "High" },
+  { name: "Bread", emoji: "🍞", zone: "Pantry", reason: "Usually purchased every 6 days", frequency: "Every 6 days", confidence: "Medium" },
+  { name: "Coffee", emoji: "☕", zone: "Pantry", reason: "Usually purchased every 30 days", frequency: "Every 30 days", confidence: "High" },
+  { name: "Butter", emoji: "🧈", zone: "Fridge", reason: "Not seen in your last scan", frequency: "Every 14 days", confidence: "Medium" },
 ];
+
+const EMOJI_BY_KEYWORD = [
+  ["milk", "🥛"], ["cream", "🥛"], ["yog", "🥣"], ["bread", "🍞"], ["roll", "🥖"],
+  ["coffee", "☕"], ["tea", "🍵"], ["butter", "🧈"], ["cheese", "🧀"], ["egg", "🥚"],
+  ["chicken", "🍗"], ["beef", "🥩"], ["mince", "🥩"], ["steak", "🥩"], ["fish", "🐟"],
+  ["rice", "🍚"], ["pasta", "🍝"], ["noodle", "🍜"], ["flour", "🌾"], ["sugar", "🍬"],
+  ["salt", "🧂"], ["oil", "🫒"], ["onion", "🧅"], ["garlic", "🧄"], ["potato", "🥔"],
+  ["carrot", "🥕"], ["tomato", "🍅"], ["apple", "🍎"], ["banana", "🍌"], ["lemon", "🍋"],
+  ["juice", "🧃"], ["water", "💧"], ["beer", "🍺"], ["wine", "🍷"], ["chocolate", "🍫"],
+];
+
+export function guessEmoji(name) {
+  const lower = name.toLowerCase();
+  const hit = EMOJI_BY_KEYWORD.find(([kw]) => lower.includes(kw));
+  return hit ? hit[1] : "🛒";
+}
 
 export const USE_SOON_SEED = [
   { name: "Spinach", emoji: "🥬", note: "Use in a few days" },

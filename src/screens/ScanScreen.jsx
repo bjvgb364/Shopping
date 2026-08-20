@@ -1,14 +1,15 @@
 import { useState, useEffect, useRef } from "react";
-import { ChevronRight, Sparkles, ArrowLeft } from "lucide-react";
+import { ChevronRight, Sparkles, ArrowLeft, Target, Check, X } from "lucide-react";
 import { AMBER, CREAM } from "../theme";
 import { MOCK_DETECTED, ZONES } from "../data";
 import styles from "../styles";
 
-export function ScanScreen({ onBack, onComplete }) {
+export function ScanScreen({ usuals = [], onBack, onComplete }) {
   const [phase, setPhase] = useState("intro");
   const [zone, setZone] = useState(ZONES[0]);
   const [foundCount, setFoundCount] = useState(0);
   const [revealedItems, setRevealedItems] = useState([]);
+  const [regularsReport, setRegularsReport] = useState([]);
   const [cameraReady, setCameraReady] = useState(false);
   const timeoutsRef = useRef([]);
   const videoRef = useRef(null);
@@ -45,10 +46,14 @@ export function ScanScreen({ onBack, onComplete }) {
     return () => timeouts.forEach(clearTimeout);
   }, []);
 
+  // regulars kept in this zone get a second, deliberate look
+  const zoneRegulars = usuals.filter((u) => (u.zone || "Pantry") === zone);
+
   const startScan = () => {
     const items = MOCK_DETECTED.filter((i) => i.category === zone);
     setPhase("scanning");
     setRevealedItems([]);
+    setRegularsReport([]);
     setFoundCount(0);
     items.forEach((item, i) => {
       const t = setTimeout(() => {
@@ -57,9 +62,27 @@ export function ScanScreen({ onBack, onComplete }) {
       }, 350 + i * 240);
       timeoutsRef.current.push(t);
     });
-    const finalT = setTimeout(() => setPhase("done"), 500 + items.length * 240);
-    timeoutsRef.current.push(finalT);
+
+    const detectedNames = items.map((i) => i.name.toLowerCase());
+    const passStart = 500 + items.length * 240;
+    if (zoneRegulars.length === 0) {
+      timeoutsRef.current.push(setTimeout(() => setPhase("done"), passStart));
+      return;
+    }
+    timeoutsRef.current.push(setTimeout(() => setPhase("priority"), passStart));
+    zoneRegulars.forEach((u, i) => {
+      const t = setTimeout(() => {
+        const found = detectedNames.some((n) => n.includes(u.name.toLowerCase()) || u.name.toLowerCase().includes(n));
+        setRegularsReport((prev) => [...prev, { name: u.name, emoji: u.emoji, zone, found }]);
+      }, passStart + 300 + i * 420);
+      timeoutsRef.current.push(t);
+    });
+    timeoutsRef.current.push(
+      setTimeout(() => setPhase("done"), passStart + 500 + zoneRegulars.length * 420)
+    );
   };
+
+  const missingRegulars = regularsReport.filter((r) => !r.found);
 
   return (
     <div style={{ ...styles.screen, background: "#1A1512" }}>
@@ -74,12 +97,19 @@ export function ScanScreen({ onBack, onComplete }) {
           <button
             key={z}
             style={{ ...styles.zonePill, ...(zone === z ? styles.zonePillActive : {}) }}
-            onClick={() => { if (phase !== "scanning") { setZone(z); setPhase("intro"); } }}
+            onClick={() => { if (phase !== "scanning" && phase !== "priority") { setZone(z); setPhase("intro"); setRegularsReport([]); } }}
           >
             {z}
           </button>
         ))}
       </div>
+
+      {zoneRegulars.length > 0 && phase === "intro" && (
+        <div style={styles.priorityBanner}>
+          <Target size={13} />
+          Looking extra hard for {zoneRegulars.map((u) => u.name).join(", ")}
+        </div>
+      )}
 
       <div style={styles.viewfinderWrap}>
         <div style={styles.viewfinder}>
@@ -97,7 +127,7 @@ export function ScanScreen({ onBack, onComplete }) {
               </p>
             </div>
           )}
-          {phase === "scanning" && (
+          {(phase === "scanning" || phase === "priority") && (
             <>
               <div style={styles.scanLine} />
               {!cameraReady && <div style={styles.viewfinderCenter}><div style={styles.fridgeIllustration}>🧊</div></div>}
@@ -121,10 +151,27 @@ export function ScanScreen({ onBack, onComplete }) {
               </div>
             </>
           )}
+          {phase === "priority" && (
+            <>
+              <p style={styles.scanStatusText}>Double-checking your regulars…</p>
+              <p style={styles.scanCountText}>{regularsReport.length} of {zoneRegulars.length} checked</p>
+              <div style={styles.priorityChipRow}>
+                {regularsReport.map((r) => (
+                  <span key={r.name} style={{ ...styles.priorityChip, ...(r.found ? styles.priorityChipFound : styles.priorityChipMissing) }}>
+                    {r.found ? <Check size={11} /> : <X size={11} />} {r.name}
+                  </span>
+                ))}
+              </div>
+            </>
+          )}
           {phase === "done" && (
             <>
               <p style={styles.scanStatusText}>We found {revealedItems.length} ingredients</p>
-              <p style={styles.scanSubStatusText}>Review them on the next screen</p>
+              <p style={styles.scanSubStatusText}>
+                {missingRegulars.length
+                  ? `${missingRegulars.length} of your regulars ${missingRegulars.length === 1 ? "is" : "are"} missing`
+                  : "Review them on the next screen"}
+              </p>
             </>
           )}
         </div>
@@ -137,11 +184,11 @@ export function ScanScreen({ onBack, onComplete }) {
             <p style={styles.captureHint}>Tap to record your {zone.toLowerCase()}</p>
           </>
         )}
-        {phase === "scanning" && (
+        {(phase === "scanning" || phase === "priority") && (
           <div style={styles.captureButtonScanning}><div style={styles.pulsingDot} /></div>
         )}
         {phase === "done" && (
-          <button style={styles.primaryButtonLight} onClick={() => onComplete(revealedItems, zone)}>
+          <button style={styles.primaryButtonLight} onClick={() => onComplete(revealedItems, zone, regularsReport)}>
             Review ingredients <ChevronRight size={18} />
           </button>
         )}

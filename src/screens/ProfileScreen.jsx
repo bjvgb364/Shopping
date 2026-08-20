@@ -1,9 +1,9 @@
-import { ChefHat, ChevronRight, Users2, CalendarDays, Store, Heart } from "lucide-react";
+import { ChefHat, ChevronRight, Users2, CalendarDays, Store, Heart, Target } from "lucide-react";
 import { RED, SUB } from "../theme";
 import styles from "../styles";
 import { Toggle } from "../components/Toggle";
 
-export function ProfileScreen({ preferences, setPreferences, onOpenSaved, onOpenKitchen, onOpenHousehold, onOpenMealPlan, onOpenShoppingIntegration, cookingHistory }) {
+export function ProfileScreen({ preferences, setPreferences, onOpenSaved, onOpenKitchen, onOpenRegulars, onOpenHousehold, onOpenMealPlan, onOpenShoppingIntegration, cookingHistory }) {
   const updatePref = (key, value) => setPreferences({ ...preferences, [key]: value });
 
   return (
@@ -20,6 +20,10 @@ export function ProfileScreen({ preferences, setPreferences, onOpenSaved, onOpen
         <div style={styles.navList}>
           <button style={styles.navListItem} onClick={onOpenKitchen}>
             <span style={styles.navListLeft}><ChefHat size={17} color={RED} /> My kitchen</span>
+            <ChevronRight size={16} color={SUB} />
+          </button>
+          <button style={styles.navListItem} onClick={onOpenRegulars}>
+            <span style={styles.navListLeft}><Target size={17} color={RED} /> My regulars</span>
             <ChevronRight size={16} color={SUB} />
           </button>
           <button style={styles.navListItem} onClick={onOpenSaved}>

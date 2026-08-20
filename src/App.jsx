@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { KEYS, USUALS_SEED, DEFAULT_PREFERENCES } from "./data";
+import { KEYS, USUALS_SEED, DEFAULT_PREFERENCES, guessEmoji } from "./data";
 import styles from "./styles";
 import { usePersistentState } from "./usePersistentState";
 import { BottomNav } from "./components/Nav";
@@ -15,6 +15,7 @@ import { ShoppingScreen } from "./screens/ShoppingScreen";
 import { SavedRecipesScreen } from "./screens/SavedRecipesScreen";
 import { MyKitchenScreen } from "./screens/MyKitchenScreen";
 import { ProfileScreen } from "./screens/ProfileScreen";
+import { RegularsScreen } from "./screens/RegularsScreen";
 import { HouseholdStub, MealPlanStub, RetailerStub } from "./screens/StubScreens";
 
 export default function App() {
@@ -61,7 +62,7 @@ export default function App() {
     const merged = zone ? inventory.filter((i) => (i.category || "Pantry") !== zone || i.source === "manual") : [...inventory];
     confirmed.forEach((item) => {
       if (!merged.some((m) => m.name === item.name)) {
-        merged.push({ ...item, category: item.category || zone || "Pantry", addedAt: Date.now(), source: "scan" });
+        merged.push({ ...item, category: item.category || zone || "Pantry", addedAt: Date.now(), source: item.source || "scan" });
       }
     });
     setInventory(merged);
@@ -82,7 +83,7 @@ export default function App() {
           ...shoppingList,
           ...missing.map((u) => ({
             id: `s-${Date.now()}-${u.name}`, name: u.name, category: "Regulars", checked: false,
-            reason: "You usually have this",
+            reason: (u.zone || "Pantry") === zone ? `Not in your ${zone.toLowerCase()} scan` : "You usually have this",
           })),
         ]);
       }
@@ -90,6 +91,22 @@ export default function App() {
     }
     return 0;
   };
+
+  /* --- Regulars --- */
+  const addUsual = (name) => {
+    if (usuals.some((u) => u.name.toLowerCase() === name.toLowerCase())) {
+      showToast(`${name} is already a regular`);
+      return;
+    }
+    setUsuals([...usuals, {
+      name, emoji: guessEmoji(name), zone: "Pantry",
+      reason: "You added this as a regular", frequency: "Checked on every scan", confidence: "High",
+    }]);
+    showToast(`We'll look out for ${name}`);
+  };
+
+  const removeUsual = (name) => setUsuals(usuals.filter((u) => u.name !== name));
+  const setUsualZone = (name, zone) => setUsuals(usuals.map((u) => (u.name === name ? { ...u, zone } : u)));
 
   const removeFromInventory = (id) => setInventory(inventory.filter((i) => i.id !== id));
   const addManualInventoryItem = (item) => setInventory([...inventory, item]);
@@ -167,14 +184,17 @@ export default function App() {
 
           {screen === "scan" && (
             <ScanScreen
+              usuals={usuals}
               onBack={() => navigate("home", "home")}
-              onComplete={(items, zone) => { navigate("review", "scan", { items, zone }); }}
+              onComplete={(items, zone, regularsReport) => { navigate("review", "scan", { items, zone, regularsReport }); }}
             />
           )}
 
           {screen === "review" && (
             <ReviewScreen
               initialItems={screenParam?.items || []}
+              regularsReport={screenParam?.regularsReport || []}
+              zone={screenParam?.zone}
               onBack={() => navigate("scan", "scan")}
               onConfirm={(items) => {
                 const missingCount = commitScanToInventory(items, screenParam?.zone);
@@ -225,6 +245,7 @@ export default function App() {
               addItem={addShoppingItem}
               addUsual={addUsualToList}
               dismissUsual={dismissUsual}
+              onManageRegulars={() => navigate("regulars")}
             />
           )}
 
@@ -234,6 +255,16 @@ export default function App() {
               inventoryNames={inventoryNames}
               onBack={() => navigate("profile", "profile")}
               onOpen={(r) => { setActiveRecipe(r); navigate("recipeDetail"); }}
+            />
+          )}
+
+          {screen === "regulars" && (
+            <RegularsScreen
+              usuals={usuals}
+              onBack={() => navigate(tab === "profile" ? "profile" : "shopping", tab)}
+              onAdd={addUsual}
+              onRemove={removeUsual}
+              onSetZone={setUsualZone}
             />
           )}
 
@@ -252,6 +283,7 @@ export default function App() {
               setPreferences={setPreferences}
               onOpenSaved={() => navigate("savedRecipes")}
               onOpenKitchen={() => navigate("myKitchen")}
+              onOpenRegulars={() => navigate("regulars")}
               onOpenHousehold={() => navigate("household")}
               onOpenMealPlan={() => navigate("mealPlan")}
               onOpenShoppingIntegration={() => navigate("retailerIntegration")}

@@ -1,9 +1,9 @@
 import { useState } from "react";
-import { Check, X, Plus } from "lucide-react";
+import { Check, X, Plus, Settings2 } from "lucide-react";
 import { CREAM } from "../theme";
 import styles from "../styles";
 
-export function ShoppingScreen({ list, usuals, toggleItem, removeItem, addItem, addUsual, dismissUsual }) {
+export function ShoppingScreen({ list, usuals, toggleItem, removeItem, addItem, addUsual, dismissUsual, onManageRegulars }) {
   const [newItem, setNewItem] = useState("");
   const [confirmingUsual, setConfirmingUsual] = useState(null);
 
@@ -46,6 +46,10 @@ export function ShoppingScreen({ list, usuals, toggleItem, removeItem, addItem, 
             </div>
           </>
         )}
+
+        <button style={styles.manageRegularsBtn} onClick={onManageRegulars}>
+          <Settings2 size={14} /> Manage my regulars ({usuals.length})
+        </button>
 
         <div style={styles.manualAddRow}>
           <input style={styles.manualInput} placeholder="Add an item" value={newItem}

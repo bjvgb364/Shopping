@@ -8,6 +8,7 @@ Cook from what you already have. Scan your fridge, freezer and pantry with your 
 - **Review** — confirm, remove or manually add anything the scan missed before it hits your kitchen inventory.
 - **Recipes** — every recipe scored by ingredient match against your inventory, with search and cuisine / meal type / max time filters.
 - **Recipe detail & cook mode** — have/need breakdown, one tap to add missing ingredients to the shopping list, and step-by-step cook mode with per-step timers.
+- **My regulars** — the items you never want to run out of. Add or remove them and set the zone each one lives in; every scan of that zone runs a dedicated second pass looking specifically for them, and the review screen lists any it couldn't find (with an "I have it" override).
 - **Shopping list** — grouped by category, with "You may need" suggestions for your regulars. After each scan, regulars that weren't detected are added automatically (toggleable via *Predict items running low* in Profile).
 - **Profile** — household size, prep time, cuisines, smart-inventory toggles, saved recipes, my kitchen, cooking history.
 

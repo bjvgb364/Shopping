@@ -228,6 +228,39 @@ const styles = {
   shoppingForRecipe: { fontSize: 10, color: SUB, fontWeight: 600, background: CARD, padding: "2px 8px", borderRadius: 10 },
   shoppingRemoveBtn: { background: "transparent", border: "none", cursor: "pointer", padding: 4 },
 
+  /* Regulars */
+  regularsIntro: { fontSize: 13, color: SUB, lineHeight: 1.55, margin: "10px 0 4px" },
+  regularRow: { display: "flex", alignItems: "center", gap: 10, background: CARD, borderRadius: 14, padding: "10px 12px", marginTop: 8 },
+  regularName: { fontSize: 14.5, fontWeight: 800, color: INK },
+  regularMeta: { fontSize: 10.5, color: SUB, fontWeight: 600 },
+  regularZonePicker: { display: "flex", gap: 4 },
+  regularZoneChip: { background: "transparent", border: "1px solid #DED2C0", color: SUB, borderRadius: 9, padding: "4px 8px", fontSize: 10, fontWeight: 800, cursor: "pointer" },
+  regularZoneChipActive: { background: INK, borderColor: INK, color: CREAM },
+  manageRegularsBtn: {
+    width: "100%", background: "transparent", border: "1.5px dashed #DED2C0", color: SUB, borderRadius: 14,
+    padding: "10px 12px", fontSize: 12.5, fontWeight: 800, cursor: "pointer", marginBottom: 18,
+    display: "flex", alignItems: "center", justifyContent: "center", gap: 6,
+  },
+
+  /* Priority scan pass */
+  priorityBanner: {
+    display: "flex", alignItems: "center", gap: 8, background: "rgba(244,168,54,0.14)", borderRadius: 12,
+    padding: "8px 12px", margin: "0 24px 10px", color: AMBER, fontSize: 11.5, fontWeight: 700,
+  },
+  priorityChipRow: { display: "flex", flexWrap: "wrap", gap: 6, justifyContent: "center", marginTop: 8 },
+  priorityChip: {
+    display: "flex", alignItems: "center", gap: 4, borderRadius: 12, padding: "4px 9px",
+    fontSize: 11, fontWeight: 700, background: "rgba(255,255,255,0.1)", color: "rgba(255,251,245,0.8)",
+  },
+  priorityChipFound: { background: "rgba(75,143,107,0.25)", color: "#9AD9B6" },
+  priorityChipMissing: { background: "rgba(232,72,58,0.22)", color: "#F2A79E" },
+  missingRegularRow: {
+    display: "flex", alignItems: "center", gap: 10, background: "#FBEAE7", borderRadius: 14,
+    padding: "10px 12px", marginTop: 8,
+  },
+  missingRegularName: { flex: 1, fontSize: 14, fontWeight: 800, color: INK },
+  missingRegularBtn: { background: GREEN, color: CREAM, border: "none", borderRadius: 10, padding: "6px 10px", fontSize: 11, fontWeight: 800, cursor: "pointer" },
+
   /* Profile */
   card: { background: CARD, borderRadius: 18, padding: 16 },
   profileRow: { display: "flex", justifyContent: "space-between", padding: "10px 2px", fontSize: 13.5, color: SUB, borderBottom: "1px solid rgba(0,0,0,0.05)" },
