@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Plus, X } from "lucide-react";
 import { CREAM } from "../theme";
-import { ZONES, guessEmoji } from "../data";
+import { ZONES, ZONE_ABBR, guessEmoji } from "../data";
 import styles from "../styles";
 import { ScreenHeader } from "../components/Nav";
 
@@ -44,8 +44,9 @@ export function RegularsScreen({ usuals, onBack, onAdd, onRemove, onSetZone }) {
                 <button key={z}
                   style={{ ...styles.regularZoneChip, ...(u.zone === z ? styles.regularZoneChipActive : {}) }}
                   onClick={() => onSetZone(u.name, z)}
+                  title={`Check for ${u.name} in the ${z.toLowerCase()}`}
                 >
-                  {z.slice(0, 2)}
+                  {ZONE_ABBR[z] || z.slice(0, 3)}
                 </button>
               ))}
             </div>

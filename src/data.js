@@ -17,6 +17,7 @@ export const KEYS = {
    MOCK "AI" DATA
 =========================================================== */
 export const ZONES = ["Fridge", "Freezer", "Pantry"];
+export const ZONE_ABBR = { Fridge: "Fdg", Freezer: "Frz", Pantry: "Pan" };
 
 export const MOCK_DETECTED = [
   { id: "eggs", name: "Eggs", emoji: "🥚", confidence: "confident", qty: "6-8", category: "Fridge" },
@@ -120,6 +121,27 @@ export function guessEmoji(name) {
   const lower = name.toLowerCase();
   const hit = EMOJI_BY_KEYWORD.find(([kw]) => lower.includes(kw));
   return hit ? hit[1] : "🛒";
+}
+
+const words = (name) =>
+  name.toLowerCase().replace(/[^a-z0-9\s]/g, " ").split(/\s+/).filter(Boolean)
+    .map((w) => (w.length > 3 && w.endsWith("s") ? w.slice(0, -1) : w));
+
+// exact (plural-insensitive) name match: a regular named "Ice" must not be
+// satisfied by detected "Rice", nor "Milk" by "Coconut Milk"
+export function matchesItemName(a, b) {
+  const [wa, wb] = [words(a), words(b)];
+  return wa.length > 0 && wa.length === wb.length && wa.every((w, i) => w === wb[i]);
+}
+
+const FRIDGE_WORDS = ["milk", "butter", "egg", "cheese", "yog", "yoghurt", "yogurt", "cream", "juice", "salad", "ham", "bacon", "chicken", "beef", "fish"];
+const FREEZER_WORDS = ["frozen", "ice", "pea", "chip", "fries"];
+
+export function defaultZoneFor(name) {
+  const lower = name.toLowerCase();
+  if (FREEZER_WORDS.some((w) => lower.includes(w))) return "Freezer";
+  if (FRIDGE_WORDS.some((w) => lower.includes(w))) return "Fridge";
+  return "Pantry";
 }
 
 export const USE_SOON_SEED = [

@@ -235,7 +235,7 @@ const styles = {
   regularMeta: { fontSize: 10.5, color: SUB, fontWeight: 600 },
   regularZonePicker: { display: "flex", gap: 4 },
   regularZoneChip: { background: "transparent", border: "1px solid #DED2C0", color: SUB, borderRadius: 9, padding: "4px 8px", fontSize: 10, fontWeight: 800, cursor: "pointer" },
-  regularZoneChipActive: { background: INK, borderColor: INK, color: CREAM },
+  regularZoneChipActive: { background: INK, border: `1px solid ${INK}`, color: CREAM },
   manageRegularsBtn: {
     width: "100%", background: "transparent", border: "1.5px dashed #DED2C0", color: SUB, borderRadius: 14,
     padding: "10px 12px", fontSize: 12.5, fontWeight: 800, cursor: "pointer", marginBottom: 18,

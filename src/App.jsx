@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { KEYS, USUALS_SEED, DEFAULT_PREFERENCES, guessEmoji } from "./data";
+import { KEYS, USUALS_SEED, DEFAULT_PREFERENCES, guessEmoji, matchesItemName, defaultZoneFor } from "./data";
 import styles from "./styles";
 import { usePersistentState } from "./usePersistentState";
 import { BottomNav } from "./components/Nav";
@@ -68,22 +68,23 @@ export default function App() {
     setInventory(merged);
 
     const stockedNames = merged.map((i) => i.name);
+    const isStocked = (name) => stockedNames.some((n) => matchesItemName(n, name));
     if (preferences.smartInventoryLearn) {
       setUsuals(usuals.map((u) => (
-        stockedNames.includes(u.name)
+        isStocked(u.name)
           ? { ...u, reason: "Seen in your last scan", confidence: "High" }
           : { ...u, reason: `Not seen in your last ${zone ? zone.toLowerCase() + " " : ""}scan`, confidence: "High" }
       )));
     }
 
     if (preferences.smartInventoryPredict) {
-      const missing = usuals.filter((u) => !stockedNames.includes(u.name) && !shoppingList.some((s) => s.name === u.name));
+      const missing = usuals.filter((u) => !isStocked(u.name) && !shoppingList.some((s) => s.name === u.name));
       if (missing.length) {
         setShoppingList([
           ...shoppingList,
           ...missing.map((u) => ({
             id: `s-${Date.now()}-${u.name}`, name: u.name, category: "Regulars", checked: false,
-            reason: (u.zone || "Pantry") === zone ? `Not in your ${zone.toLowerCase()} scan` : "You usually have this",
+            reason: (u.zone || defaultZoneFor(u.name)) === zone ? `Not in your ${zone.toLowerCase()} scan` : "You usually have this",
           })),
         ]);
       }
@@ -99,7 +100,7 @@ export default function App() {
       return;
     }
     setUsuals([...usuals, {
-      name, emoji: guessEmoji(name), zone: "Pantry",
+      name, emoji: guessEmoji(name), zone: defaultZoneFor(name),
       reason: "You added this as a regular", frequency: "Checked on every scan", confidence: "High",
     }]);
     showToast(`We'll look out for ${name}`);

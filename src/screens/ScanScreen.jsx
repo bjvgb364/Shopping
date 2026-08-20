@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { ChevronRight, Sparkles, ArrowLeft, Target, Check, X } from "lucide-react";
 import { AMBER, CREAM } from "../theme";
-import { MOCK_DETECTED, ZONES } from "../data";
+import { MOCK_DETECTED, ZONES, matchesItemName, defaultZoneFor } from "../data";
 import styles from "../styles";
 
 export function ScanScreen({ usuals = [], onBack, onComplete }) {
@@ -47,7 +47,7 @@ export function ScanScreen({ usuals = [], onBack, onComplete }) {
   }, []);
 
   // regulars kept in this zone get a second, deliberate look
-  const zoneRegulars = usuals.filter((u) => (u.zone || "Pantry") === zone);
+  const zoneRegulars = usuals.filter((u) => (u.zone || defaultZoneFor(u.name)) === zone);
 
   const startScan = () => {
     const items = MOCK_DETECTED.filter((i) => i.category === zone);
@@ -63,7 +63,7 @@ export function ScanScreen({ usuals = [], onBack, onComplete }) {
       timeoutsRef.current.push(t);
     });
 
-    const detectedNames = items.map((i) => i.name.toLowerCase());
+    const detectedNames = items.map((i) => i.name);
     const passStart = 500 + items.length * 240;
     if (zoneRegulars.length === 0) {
       timeoutsRef.current.push(setTimeout(() => setPhase("done"), passStart));
@@ -72,7 +72,7 @@ export function ScanScreen({ usuals = [], onBack, onComplete }) {
     timeoutsRef.current.push(setTimeout(() => setPhase("priority"), passStart));
     zoneRegulars.forEach((u, i) => {
       const t = setTimeout(() => {
-        const found = detectedNames.some((n) => n.includes(u.name.toLowerCase()) || u.name.toLowerCase().includes(n));
+        const found = detectedNames.some((n) => matchesItemName(n, u.name));
         setRegularsReport((prev) => [...prev, { name: u.name, emoji: u.emoji, zone, found }]);
       }, passStart + 300 + i * 420);
       timeoutsRef.current.push(t);
