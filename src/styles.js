@@ -303,6 +303,29 @@ const styles = {
   specialSave: { fontSize: 9.5, fontWeight: 800, color: RED_DARK, background: RED_SOFT, padding: "2px 6px", borderRadius: 8, alignSelf: "flex-start", marginTop: 2 },
   specialExpires: { fontSize: 9.5, color: SUB, fontWeight: 600 },
   specialAddBtn: { width: "100%", background: RED, color: CREAM, border: "none", borderRadius: 10, padding: "7px 0", fontSize: 11.5, fontWeight: 800, cursor: "pointer", marginTop: 6, display: "flex", alignItems: "center", justifyContent: "center", gap: 4 },
+  specialsViewAllBtn: { display: "flex", alignItems: "center", gap: 4, background: "transparent", border: "none", color: RED, fontSize: 12, fontWeight: 800, cursor: "pointer", padding: 0 },
+
+  /* Coles specials full page */
+  specialsHeroBanner: { display: "flex", alignItems: "center", gap: 14, background: RED_SOFT, borderRadius: 18, padding: "16px 18px", marginBottom: 18 },
+  specialsHeroLogo: { width: 44, height: 44, borderRadius: 22, background: RED, display: "flex", alignItems: "center", justifyContent: "center", color: CREAM, fontSize: 20, fontWeight: 900, flexShrink: 0 },
+  specialsHeroTitle: { fontSize: 17, fontWeight: 800, color: INK },
+  specialsHeroSub: { fontSize: 12.5, color: SUB, fontWeight: 600, marginTop: 2 },
+  specialsFilterRow: { display: "flex", gap: 8, overflowX: "auto", paddingBottom: 14, scrollbarWidth: "none" },
+  specialsFilterPill: { background: "transparent", border: `1.5px solid ${LINE_STRONG}`, color: SUB, borderRadius: 20, padding: "6px 14px", fontSize: 12, fontWeight: 700, cursor: "pointer", whiteSpace: "nowrap", flexShrink: 0 },
+  specialsFilterPillActive: { background: RED, color: CREAM, borderColor: RED },
+  specialFullCard: { display: "flex", alignItems: "center", gap: 14, background: CREAM, border: `1px solid ${LINE}`, borderRadius: 16, padding: 14, marginBottom: 10 },
+  specialFullEmoji: { fontSize: 32, flexShrink: 0, width: 48, textAlign: "center" },
+  specialFullBody: { flex: 1, minWidth: 0 },
+  specialFullName: { fontSize: 14, fontWeight: 700, color: INK, lineHeight: 1.3 },
+  specialFullMeta: { display: "flex", alignItems: "center", gap: 5, fontSize: 11, color: SUB, fontWeight: 600, marginTop: 3 },
+  specialFullSep: { opacity: 0.5 },
+  specialFullCat: { color: INK, fontWeight: 700 },
+  specialFullPriceRow: { display: "flex", alignItems: "baseline", gap: 8, marginTop: 6 },
+  specialFullNow: { fontSize: 20, fontWeight: 900, color: RED },
+  specialFullWas: { fontSize: 12, color: MUTED, fontWeight: 600, textDecoration: "line-through" },
+  specialFullSave: { fontSize: 10, fontWeight: 800, color: RED_DARK, background: RED_SOFT, padding: "3px 8px", borderRadius: 8 },
+  specialFullAddBtn: { width: 40, height: 40, borderRadius: 20, background: RED, color: CREAM, border: "none", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", flexShrink: 0 },
+  specialsFooterHint: { fontSize: 12, color: SUB, fontWeight: 600, lineHeight: 1.5, marginTop: 16, padding: "0 4px" },
 
   /* Finalise / Coles modal */
   finalizeBar: {

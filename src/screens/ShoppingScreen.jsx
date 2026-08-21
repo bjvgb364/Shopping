@@ -1,12 +1,12 @@
 import { useState } from "react";
-import { Check, X, Plus, Settings2, ShoppingBag, ExternalLink, ArrowLeft } from "lucide-react";
+import { Check, X, Plus, Settings2, ShoppingBag, ExternalLink, ArrowLeft, ChevronRight } from "lucide-react";
 import { CREAM, MUTED, INK, RED, RED_DARK } from "../theme";
 import { COLES_SPECIALS, guessEmoji } from "../data";
 import styles from "../styles";
 
 const COLES_SEARCH_BASE = "https://shop.coles.com.au/a/national/everything/search/";
 
-export function ShoppingScreen({ list, usuals, toggleItem, removeItem, addItem, addUsual, dismissUsual, onManageRegulars }) {
+export function ShoppingScreen({ list, usuals, toggleItem, removeItem, addItem, addUsual, dismissUsual, onManageRegulars, onViewAllSpecials }) {
   const [newItem, setNewItem] = useState("");
   const [confirmingUsual, setConfirmingUsual] = useState(null);
   const [addedSpecials, setAddedSpecials] = useState({});
@@ -99,7 +99,9 @@ export function ShoppingScreen({ list, usuals, toggleItem, removeItem, addItem, 
             <div style={styles.specialsLogoDot}>C</div>
             <span style={styles.specialsTitle}>Coles specials</span>
           </div>
-          <span style={styles.specialsBadge}>On sale this week</span>
+          <button style={styles.specialsViewAllBtn} onClick={onViewAllSpecials}>
+            View all <ChevronRight size={14} />
+          </button>
         </div>
 
         <div style={styles.specialsScroll}>

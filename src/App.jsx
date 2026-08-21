@@ -18,6 +18,7 @@ import { ProfileScreen } from "./screens/ProfileScreen";
 import { RegularsScreen } from "./screens/RegularsScreen";
 import { HouseholdStub, MealPlanStub, RetailerStub } from "./screens/StubScreens";
 import { ScanSummaryScreen } from "./screens/ScanSummaryScreen";
+import { ColesSpecialsScreen } from "./screens/ColesSpecialsScreen";
 
 export default function App() {
   const [screen, setScreen] = useState("splash");
@@ -273,6 +274,7 @@ export default function App() {
               addUsual={addUsualToList}
               dismissUsual={dismissUsual}
               onManageRegulars={() => navigate("regulars")}
+              onViewAllSpecials={() => navigate("colesSpecials")}
             />
           )}
 
@@ -326,6 +328,14 @@ export default function App() {
               onShopping={() => navigate("shopping", "shopping")}
               onScanAnother={() => { setScannedZones([]); navigate("scan", "scan", { sessionActive: true }); }}
               onHome={() => navigate("home", "home")}
+            />
+          )}
+
+          {screen === "colesSpecials" && (
+            <ColesSpecialsScreen
+              list={shoppingList}
+              addItem={addShoppingItem}
+              onBack={() => navigate("shopping", "shopping")}
             />
           )}
 
