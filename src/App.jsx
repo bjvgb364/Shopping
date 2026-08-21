@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { KEYS, USUALS_SEED, DEFAULT_PREFERENCES, guessEmoji, matchesItemName, defaultZoneFor } from "./data";
+import { KEYS, USUALS_SEED, DEFAULT_PREFERENCES, ZONES, guessEmoji, matchesItemName, defaultZoneFor } from "./data";
 import styles from "./styles";
 import { usePersistentState } from "./usePersistentState";
 import { BottomNav } from "./components/Nav";
@@ -17,6 +17,7 @@ import { MyKitchenScreen } from "./screens/MyKitchenScreen";
 import { ProfileScreen } from "./screens/ProfileScreen";
 import { RegularsScreen } from "./screens/RegularsScreen";
 import { HouseholdStub, MealPlanStub, RetailerStub } from "./screens/StubScreens";
+import { ScanSummaryScreen } from "./screens/ScanSummaryScreen";
 
 export default function App() {
   const [screen, setScreen] = useState("splash");
@@ -24,6 +25,7 @@ export default function App() {
   const [activeRecipe, setActiveRecipe] = useState(null);
   const [toast, setToast] = useState(null);
   const [screenParam, setScreenParam] = useState(null);
+  const [scannedZones, setScannedZones] = useState([]);
 
   const [inventory, setInventory, invLoaded] = usePersistentState(KEYS.inventory, []);
   const [shoppingList, setShoppingList, listLoaded] = usePersistentState(KEYS.shoppingList, []);
@@ -51,6 +53,11 @@ export default function App() {
     if (t) setTab(t);
     setScreenParam(param ?? null);
     window.scrollTo?.(0, 0);
+  };
+
+  const startScanSession = () => {
+    setScannedZones([]);
+    navigate("scan", "scan", { sessionActive: true });
   };
 
   const inventoryNames = inventory.map((i) => i.name);
@@ -84,7 +91,7 @@ export default function App() {
           ...shoppingList,
           ...missing.map((u) => ({
             id: `s-${Date.now()}-${u.name}`, name: u.name, category: "Regulars", checked: false,
-            reason: (u.zone || defaultZoneFor(u.name)) === zone ? `Not in your ${zone.toLowerCase()} scan` : "You usually have this",
+            reason: `Not in your ${u.zone || defaultZoneFor(u.name)} scan`,
           })),
         ]);
       }
@@ -175,7 +182,7 @@ export default function App() {
             <HomeScreen
               inventory={inventory}
               usuals={usuals}
-              onScan={() => navigate("scan", "scan")}
+              onScan={() => startScanSession()}
               onWhatCanIMake={() => navigate("recipes", "recipes")}
               onShopping={() => navigate("shopping", "shopping")}
               onRecipeOpen={(r) => { setActiveRecipe(r); navigate("recipeDetail"); }}
@@ -186,8 +193,10 @@ export default function App() {
           {screen === "scan" && (
             <ScanScreen
               usuals={usuals}
+              scannedZones={scannedZones}
+              sessionActive={screenParam?.sessionActive}
               onBack={() => navigate("home", "home")}
-              onComplete={(items, zone, regularsReport) => { navigate("review", "scan", { items, zone, regularsReport }); }}
+              onComplete={(items, zone, regularsReport) => { navigate("review", "scan", { items, zone, regularsReport, sessionActive: screenParam?.sessionActive }); }}
             />
           )}
 
@@ -196,13 +205,30 @@ export default function App() {
               initialItems={screenParam?.items || []}
               regularsReport={screenParam?.regularsReport || []}
               zone={screenParam?.zone}
-              onBack={() => navigate("scan", "scan")}
-              onConfirm={(items) => {
-                const missingCount = commitScanToInventory(items, screenParam?.zone);
-                navigate("recipes", "recipes");
-                showToast(missingCount
-                  ? `Kitchen updated · ${missingCount} usual${missingCount > 1 ? "s" : ""} added to your list`
-                  : "Kitchen updated");
+              scannedZones={scannedZones}
+              sessionActive={screenParam?.sessionActive}
+              onBack={() => navigate("scan", "scan", { sessionActive: screenParam?.sessionActive })}
+              onConfirm={(items, action) => {
+                const zone = screenParam?.zone;
+                const missingCount = commitScanToInventory(items, zone);
+                const newScannedZones = scannedZones.includes(zone) ? scannedZones : [...scannedZones, zone];
+                setScannedZones(newScannedZones);
+
+                if (action === "nextZone") {
+                  const nextZone = ZONES.find((z) => !newScannedZones.includes(z));
+                  navigate("scan", "scan", { sessionActive: true });
+                  showToast(`${zone} done · ${nextZone} next`);
+                } else if (action === "finish") {
+                  navigate("scanSummary", "scan", { sessionActive: true });
+                  showToast(missingCount
+                    ? `Kitchen updated · ${missingCount} usual${missingCount > 1 ? "s" : ""} added to your list`
+                    : "Kitchen updated");
+                } else {
+                  navigate("recipes", "recipes");
+                  showToast(missingCount
+                    ? `Kitchen updated · ${missingCount} usual${missingCount > 1 ? "s" : ""} added to your list`
+                    : "Kitchen updated");
+                }
               }}
             />
           )}
@@ -292,16 +318,27 @@ export default function App() {
             />
           )}
 
+          {screen === "scanSummary" && (
+            <ScanSummaryScreen
+              inventory={inventory}
+              scannedZones={scannedZones}
+              onRecipes={() => navigate("recipes", "recipes")}
+              onShopping={() => navigate("shopping", "shopping")}
+              onScanAnother={() => { setScannedZones([]); navigate("scan", "scan", { sessionActive: true }); }}
+              onHome={() => navigate("home", "home")}
+            />
+          )}
+
           {screen === "household" && <HouseholdStub onBack={() => navigate("profile", "profile")} />}
           {screen === "mealPlan" && <MealPlanStub onBack={() => navigate("profile", "profile")} />}
           {screen === "retailerIntegration" && <RetailerStub onBack={() => navigate("profile", "profile")} />}
         </div>
 
-        {!["scan", "cookMode", "onboarding"].includes(screen) && (
+        {!["scan", "cookMode", "onboarding", "scanSummary"].includes(screen) && (
           <BottomNav
             tab={tab}
             onNav={(t) => {
-              if (t === "scan") navigate("scan", "scan");
+              if (t === "scan") startScanSession();
               else navigate(t, t);
             }}
           />

@@ -344,6 +344,30 @@ const styles = {
   colesItemName: { flex: 1, fontSize: 13.5, fontWeight: 700, color: INK },
   colesItemHint: { fontSize: 10.5, color: SUB, fontWeight: 600 },
 
+  /* Scan progress indicator */
+  scanProgressRow: { display: "flex", alignItems: "center", gap: 8, padding: "0 20px 8px" },
+  scanProgressDot: { width: 22, height: 22, borderRadius: 11, display: "flex", alignItems: "center", justifyContent: "center", background: "rgba(255,255,255,0.1)", flexShrink: 0 },
+  scanProgressDotDone: { background: GREEN },
+  scanProgressDotCurrent: { background: RED, boxShadow: "0 0 0 3px rgba(229,0,22,0.3)" },
+  scanProgressLabel: { color: "rgba(255,251,245,0.6)", fontSize: 11.5, fontWeight: 700, marginLeft: 4 },
+
+  /* Scan summary screen */
+  summaryIconWrap: { width: 56, height: 56, borderRadius: 18, background: "rgba(75,143,107,0.12)", display: "flex", alignItems: "center", justifyContent: "center", marginBottom: 14 },
+  summaryTitle: { fontSize: 26, fontWeight: 800, color: INK, margin: "0 0 6px", letterSpacing: -0.4 },
+  summarySub: { fontSize: 14, color: SUB, fontWeight: 600, lineHeight: 1.5, margin: "0 0 4px" },
+  summaryZoneCard: { background: CARD, borderRadius: 18, padding: "16px 16px", marginBottom: 12 },
+  summaryZoneHeader: { display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 10 },
+  summaryZoneName: { fontSize: 16, fontWeight: 800, color: INK },
+  summaryZoneBadge: { fontSize: 10, fontWeight: 800, color: SUB, background: SURFACE_TINT, padding: "4px 10px", borderRadius: 20 },
+  summaryZoneBadgeDone: { color: GREEN, background: "rgba(75,143,107,0.12)" },
+  summaryZoneItems: { display: "flex", flexWrap: "wrap", gap: 6 },
+  summaryItemChip: { display: "flex", alignItems: "center", gap: 4, background: CREAM, border: `1px solid ${LINE}`, color: INK, fontSize: 12.5, fontWeight: 600, padding: "6px 10px", borderRadius: 16 },
+  summaryZoneEmpty: { fontSize: 13, color: SUB, fontWeight: 600, margin: 0 },
+  summaryActionRow: { display: "flex", gap: 10, marginBottom: 10 },
+  summaryActionBtn: { flex: 1, background: RED, color: CREAM, border: "none", borderRadius: 18, padding: "16px 12px", fontSize: 14, fontWeight: 800, cursor: "pointer", display: "flex", flexDirection: "column", alignItems: "center", gap: 6 },
+  summarySecondaryRow: { display: "flex", gap: 10 },
+  summarySecondaryBtn: { flex: 1, background: "transparent", border: `1.5px solid ${LINE_STRONG}`, color: SUB, borderRadius: 14, padding: "10px 12px", fontSize: 12.5, fontWeight: 800, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 6 },
+
   /* Bottom nav */
   bottomNav: { display: "flex", alignItems: "center", justifyContent: "space-around", padding: "10px 8px 18px", borderTop: `1px solid ${LINE}`, background: CREAM },
   navItem: { background: "transparent", border: "none", display: "flex", flexDirection: "column", alignItems: "center", gap: 3, cursor: "pointer", padding: 4, minWidth: 44 },

@@ -1,12 +1,12 @@
 import { useState } from "react";
-import { Plus } from "lucide-react";
+import { Plus, ChevronRight, Check } from "lucide-react";
 import { CREAM } from "../theme";
-import { guessEmoji } from "../data";
+import { ZONES, guessEmoji } from "../data";
 import styles from "../styles";
 import { ScreenHeader } from "../components/Nav";
 import { IngredientCard } from "../components/IngredientCard";
 
-export function ReviewScreen({ initialItems, regularsReport = [], zone, onBack, onConfirm }) {
+export function ReviewScreen({ initialItems, regularsReport = [], zone, scannedZones = [], sessionActive = false, onBack, onConfirm }) {
   const [items, setItems] = useState(initialItems);
   const [manualAdd, setManualAdd] = useState("");
   const [overridden, setOverridden] = useState([]);
@@ -23,6 +23,11 @@ export function ReviewScreen({ initialItems, regularsReport = [], zone, onBack, 
   };
   const confident = items.filter((i) => i.confidence === "confident");
   const maybe = items.filter((i) => i.confidence === "maybe");
+
+  const remainingZones = ZONES.filter((z) => !scannedZones.includes(z) && z !== zone);
+  const hasMoreZones = remainingZones.length > 0;
+
+  const handleConfirm = (action) => onConfirm(items, action);
 
   const removeItem = (id) => setItems((prev) => prev.filter((i) => i.id !== id));
   const confirmMaybe = (id) =>
@@ -82,9 +87,24 @@ export function ReviewScreen({ initialItems, regularsReport = [], zone, onBack, 
       </div>
 
       <div style={styles.stickyBottom}>
-        <button style={styles.primaryButton} onClick={() => onConfirm(items)}>
-          Find recipes with {items.length} ingredients
-        </button>
+        {sessionActive && hasMoreZones ? (
+          <div style={{ display: "flex", gap: 10 }}>
+            <button style={{ ...styles.primaryButton, flex: 1 }} onClick={() => handleConfirm("finish")}>
+              Finish <ChevronRight size={18} />
+            </button>
+            <button style={{ ...styles.primaryButton, flex: 1.5 }} onClick={() => handleConfirm("nextZone")}>
+              Save & scan {remainingZones[0]} <ChevronRight size={18} />
+            </button>
+          </div>
+        ) : sessionActive ? (
+          <button style={styles.primaryButton} onClick={() => handleConfirm("finish")}>
+            Finish kitchen scan <Check size={18} />
+          </button>
+        ) : (
+          <button style={styles.primaryButton} onClick={() => handleConfirm("recipes")}>
+            Find recipes with {items.length} ingredients
+          </button>
+        )}
       </div>
     </div>
   );

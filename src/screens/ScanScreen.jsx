@@ -1,12 +1,15 @@
 import { useState, useEffect, useRef } from "react";
 import { ChevronRight, Sparkles, ArrowLeft, Target, Check, X } from "lucide-react";
-import { RED_LIGHT, CREAM, FRAME } from "../theme";
+import { RED_LIGHT, CREAM, FRAME, GREEN } from "../theme";
 import { MOCK_DETECTED, ZONES, matchesItemName, defaultZoneFor } from "../data";
 import styles from "../styles";
 
-export function ScanScreen({ usuals = [], onBack, onComplete }) {
+export function ScanScreen({ usuals = [], scannedZones = [], sessionActive = false, onBack, onComplete }) {
   const [phase, setPhase] = useState("intro");
-  const [zone, setZone] = useState(ZONES[0]);
+  const [zone, setZone] = useState(() => {
+    const next = ZONES.find((z) => !scannedZones.includes(z));
+    return next || ZONES[0];
+  });
   const [foundCount, setFoundCount] = useState(0);
   const [revealedItems, setRevealedItems] = useState([]);
   const [regularsReport, setRegularsReport] = useState([]);
@@ -92,6 +95,23 @@ export function ScanScreen({ usuals = [], onBack, onComplete }) {
         <div style={{ width: 36 }} />
       </div>
 
+      {sessionActive && (
+        <div style={styles.scanProgressRow}>
+          {ZONES.map((z) => {
+            const isScanned = scannedZones.includes(z);
+            const isCurrent = zone === z;
+            return (
+              <div key={z} style={{ ...styles.scanProgressDot, ...(isScanned ? styles.scanProgressDotDone : {}), ...(isCurrent ? styles.scanProgressDotCurrent : {}) }}>
+                {isScanned ? <Check size={12} color={CREAM} /> : <span style={{ fontSize: 10, fontWeight: 800, color: isCurrent ? CREAM : "rgba(255,251,245,0.5)" }}>{z[0]}</span>}
+              </div>
+            );
+          })}
+          <span style={styles.scanProgressLabel}>
+            {scannedZones.length} of {ZONES.length} zones scanned
+          </span>
+        </div>
+      )}
+
       <div style={styles.zoneRow}>
         {ZONES.map((z) => (
           <button
@@ -99,6 +119,7 @@ export function ScanScreen({ usuals = [], onBack, onComplete }) {
             style={{ ...styles.zonePill, ...(zone === z ? styles.zonePillActive : {}) }}
             onClick={() => { if (phase !== "scanning" && phase !== "priority") { setZone(z); setPhase("intro"); setRegularsReport([]); } }}
           >
+            {scannedZones.includes(z) && <Check size={11} style={{ marginRight: 3 }} />}
             {z}
           </button>
         ))}
