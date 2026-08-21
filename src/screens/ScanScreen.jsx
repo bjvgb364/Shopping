@@ -114,16 +114,32 @@ export function ScanScreen({ usuals = [], scannedZones = [], sessionActive = fal
       )}
 
       <div style={styles.zoneRow}>
-        {ZONES.map((z) => (
-          <button
-            key={z}
-            style={{ ...styles.zonePill, ...(zone === z ? styles.zonePillActive : {}) }}
-            onClick={() => { if (phase !== "scanning" && phase !== "priority") { setZone(z); setPhase("intro"); setRegularsReport([]); } }}
-          >
-            {scannedZones.includes(z) && <Check size={11} style={{ marginRight: 3 }} />}
-            {z}
-          </button>
-        ))}
+        {ZONES.map((z) => {
+          const isDone = scannedZones.includes(z);
+          const isCurrent = zone === z;
+          const isLocked = isDone && !isCurrent;
+          return (
+            <button
+              key={z}
+              style={{
+                ...styles.zonePill,
+                ...(isCurrent ? styles.zonePillActive : {}),
+                ...(isLocked ? styles.zonePillLocked : {}),
+              }}
+              disabled={isLocked}
+              onClick={() => {
+                if (!isLocked && phase !== "scanning" && phase !== "priority" && phase !== "done") {
+                  setZone(z);
+                  setPhase("intro");
+                  setRegularsReport([]);
+                }
+              }}
+            >
+              {isDone && <Check size={11} style={{ marginRight: 3 }} />}
+              {z}
+            </button>
+          );
+        })}
       </div>
 
       {zoneRegulars.length > 0 && phase === "intro" && (
@@ -211,7 +227,9 @@ export function ScanScreen({ usuals = [], scannedZones = [], sessionActive = fal
         )}
         {phase === "done" && (
           <button style={styles.primaryButtonLight} onClick={() => onComplete(revealedItems, zone, regularsReport)}>
-            Review ingredients <ChevronRight size={18} />
+            {sessionActive && ZONES.filter((z) => !scannedZones.includes(z) && z !== zone).length > 0
+              ? `Review ${zone} & continue`
+              : `Review ingredients`} <ChevronRight size={18} />
           </button>
         )}
       </div>

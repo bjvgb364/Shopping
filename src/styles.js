@@ -131,6 +131,7 @@ const styles = {
     padding: "8px 16px", fontSize: 13, fontWeight: 700, cursor: "pointer",
   },
   zonePillActive: { background: RED, color: CREAM },
+  zonePillLocked: { opacity: 0.45, cursor: "default" },
   fridgeIllustration: { fontSize: 56, opacity: 0.5 },
   viewfinderHint: { color: "rgba(255,255,255,0.5)", fontSize: 13, textAlign: "center", maxWidth: 220, lineHeight: 1.5 },
   scanLine: { position: "absolute", left: 8, right: 8, height: 2, background: RED_LIGHT, boxShadow: `0 0 12px 2px ${RED_LIGHT}`, animation: "scanmove 1.8s ease-in-out infinite" },
