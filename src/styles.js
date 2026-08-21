@@ -285,6 +285,24 @@ const styles = {
   stubPreviewRow: { fontSize: 12.5, color: INK, fontWeight: 600, textAlign: "left", padding: "4px 2px" },
   comingSoonBadgeLarge: { marginTop: 22, fontSize: 12, fontWeight: 800, color: SUB, background: SURFACE_TINT, padding: "8px 16px", borderRadius: 20 },
 
+  /* Coles specials */
+  specialsHeader: { display: "flex", alignItems: "center", justifyContent: "space-between", marginTop: 28, marginBottom: 14 },
+  specialsLogo: { display: "flex", alignItems: "center", gap: 8 },
+  specialsLogoDot: { width: 28, height: 28, borderRadius: 14, background: RED, display: "flex", alignItems: "center", justifyContent: "center", color: CREAM, fontSize: 13, fontWeight: 900 },
+  specialsTitle: { fontSize: 17, fontWeight: 800, color: INK },
+  specialsBadge: { fontSize: 10, fontWeight: 800, color: RED, background: RED_SOFT, padding: "4px 10px", borderRadius: 20 },
+  specialsScroll: { display: "flex", gap: 10, overflowX: "auto", paddingBottom: 6, scrollbarWidth: "none" },
+  specialCard: { minWidth: 150, background: CREAM, border: `1px solid ${LINE}`, borderRadius: 16, padding: 12, display: "flex", flexDirection: "column", gap: 4, flexShrink: 0, position: "relative" },
+  specialEmoji: { fontSize: 28 },
+  specialName: { fontSize: 13, fontWeight: 700, color: INK, lineHeight: 1.3, minHeight: 34 },
+  specialUnit: { fontSize: 10.5, color: SUB, fontWeight: 600 },
+  specialPriceRow: { display: "flex", alignItems: "baseline", gap: 6, marginTop: 2 },
+  specialNow: { fontSize: 18, fontWeight: 900, color: RED },
+  specialWas: { fontSize: 11, color: MUTED, fontWeight: 600, textDecoration: "line-through" },
+  specialSave: { fontSize: 9.5, fontWeight: 800, color: GREEN, background: "#E9F3ED", padding: "2px 6px", borderRadius: 8, alignSelf: "flex-start", marginTop: 2 },
+  specialExpires: { fontSize: 9.5, color: SUB, fontWeight: 600 },
+  specialAddBtn: { width: "100%", background: INK, color: CREAM, border: "none", borderRadius: 10, padding: "7px 0", fontSize: 11.5, fontWeight: 800, cursor: "pointer", marginTop: 6, display: "flex", alignItems: "center", justifyContent: "center", gap: 4 },
+
   /* Bottom nav */
   bottomNav: { display: "flex", alignItems: "center", justifyContent: "space-around", padding: "10px 8px 18px", borderTop: `1px solid ${LINE}`, background: CREAM },
   navItem: { background: "transparent", border: "none", display: "flex", flexDirection: "column", alignItems: "center", gap: 3, cursor: "pointer", padding: 4, minWidth: 44 },

@@ -160,6 +160,17 @@ export const DEFAULT_PREFERENCES = {
   smartInventoryAutoUpdate: true,
 };
 
+export const COLES_SPECIALS = [
+  { id: "cs1", name: "Chicken Breast Fillets 500g", emoji: "🍗", was: 8.50, now: 6.00, unit: "500g", category: "Meat", expires: "Wed 27 Aug" },
+  { id: "cs2", name: "Full Cream Milk 2L", emoji: "🥛", was: 4.20, now: 3.50, unit: "2L", category: "Dairy", expires: "Wed 27 Aug" },
+  { id: "cs3", name: "Broccoli", emoji: "🥦", was: 3.90, now: 2.50, unit: "each", category: "Produce", expires: "Sun 24 Aug" },
+  { id: "cs4", name: "Free-Range Eggs 12pk", emoji: "🥚", was: 6.50, now: 4.80, unit: "12 pack", category: "Dairy", expires: "Wed 27 Aug" },
+  { id: "cs5", name: "Tomatoes Vine 500g", emoji: "🍅", was: 5.00, now: 3.50, unit: "500g", category: "Produce", expires: "Sun 24 Aug" },
+  { id: "cs6", name: "Basmati Rice 1kg", emoji: "🍚", was: 4.50, now: 3.00, unit: "1kg", category: "Pantry", expires: "Wed 27 Aug" },
+  { id: "cs7", name: "Sourdough Loaf", emoji: "🍞", was: 5.50, now: 4.00, unit: "each", category: "Bakery", expires: "Today only" },
+  { id: "cs8", name: "Greek Yoghurt 1kg", emoji: "🥣", was: 6.00, now: 4.50, unit: "1kg", category: "Dairy", expires: "Wed 27 Aug" },
+];
+
 export function scoreRecipe(recipe, inventoryNames) {
   const have = recipe.requires.filter((r) => inventoryNames.includes(r));
   const need = recipe.requires.filter((r) => !inventoryNames.includes(r));

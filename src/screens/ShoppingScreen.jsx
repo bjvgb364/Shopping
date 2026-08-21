@@ -1,14 +1,22 @@
 import { useState } from "react";
 import { Check, X, Plus, Settings2 } from "lucide-react";
 import { CREAM, MUTED } from "../theme";
+import { COLES_SPECIALS } from "../data";
 import styles from "../styles";
 
 export function ShoppingScreen({ list, usuals, toggleItem, removeItem, addItem, addUsual, dismissUsual, onManageRegulars }) {
   const [newItem, setNewItem] = useState("");
   const [confirmingUsual, setConfirmingUsual] = useState(null);
+  const [addedSpecials, setAddedSpecials] = useState({});
 
   const handleAdd = () => { if (!newItem.trim()) return; addItem(newItem.trim()); setNewItem(""); };
   const categories = [...new Set(list.map((i) => i.category))];
+
+  const addSpecial = (special) => {
+    if (addedSpecials[special.id]) return;
+    addItem(special.name, "Coles Special");
+    setAddedSpecials({ ...addedSpecials, [special.id]: true });
+  };
 
   return (
     <div style={styles.screen}>
@@ -72,6 +80,37 @@ export function ShoppingScreen({ list, usuals, toggleItem, removeItem, addItem, 
             ))}
           </div>
         ))}
+
+        <div style={styles.specialsHeader}>
+          <div style={styles.specialsLogo}>
+            <div style={styles.specialsLogoDot}>C</div>
+            <span style={styles.specialsTitle}>Coles specials</span>
+          </div>
+          <span style={styles.specialsBadge}>On sale this week</span>
+        </div>
+
+        <div style={styles.specialsScroll}>
+          {COLES_SPECIALS.map((s) => {
+            const added = addedSpecials[s.id] || list.some((i) => i.name === s.name);
+            const saving = ((s.was - s.now) / s.was * 100).toFixed(0);
+            return (
+              <div key={s.id} style={styles.specialCard}>
+                <span style={styles.specialEmoji}>{s.emoji}</span>
+                <div style={styles.specialName}>{s.name}</div>
+                <div style={styles.specialUnit}>{s.unit}</div>
+                <div style={styles.specialPriceRow}>
+                  <span style={styles.specialNow}>${s.now.toFixed(2)}</span>
+                  <span style={styles.specialWas}>${s.was.toFixed(2)}</span>
+                </div>
+                <span style={styles.specialSave}>Save {saving}%</span>
+                <span style={styles.specialExpires}>Until {s.expires}</span>
+                <button style={{ ...styles.specialAddBtn, ...(added ? { background: GREEN } : {}) }} onClick={() => addSpecial(s)} disabled={added}>
+                  {added ? "Added ✓" : "+ Add to list"}
+                </button>
+              </div>
+            );
+          })}
+        </div>
       </div>
     </div>
   );
