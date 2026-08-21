@@ -100,14 +100,15 @@ export function ScanScreen({ usuals = [], scannedZones = [], sessionActive = fal
           {ZONES.map((z) => {
             const isScanned = scannedZones.includes(z);
             const isCurrent = zone === z;
+            const isScanning = isCurrent && phase !== "intro";
             return (
-              <div key={z} style={{ ...styles.scanProgressDot, ...(isScanned ? styles.scanProgressDotDone : {}), ...(isCurrent ? styles.scanProgressDotCurrent : {}) }}>
+              <div key={z} style={{ ...styles.scanProgressDot, ...(isScanned ? styles.scanProgressDotDone : {}), ...(isScanning ? styles.scanProgressDotCurrent : {}) }}>
                 {isScanned ? <Check size={12} color={CREAM} /> : <span style={{ fontSize: 10, fontWeight: 800, color: isCurrent ? CREAM : "rgba(255,251,245,0.5)" }}>{z[0]}</span>}
               </div>
             );
           })}
           <span style={styles.scanProgressLabel}>
-            {scannedZones.length} of {ZONES.length} zones scanned
+            {scannedZones.length + (phase !== "intro" ? 1 : 0)} of {ZONES.length} zones scanned
           </span>
         </div>
       )}
