@@ -15,8 +15,8 @@ export function ScreenHeader({ title, onBack }) {
 export function BottomNav({ tab, onNav }) {
   const items = [
     { id: "home", icon: Home, label: "Home" },
-    { id: "scan", icon: Camera, label: "Scan" },
     { id: "recipes", icon: ChefHat, label: "Recipes" },
+    { id: "scan", icon: Camera, label: "Scan" },
     { id: "shopping", icon: ShoppingCart, label: "Shopping" },
     { id: "profile", icon: User, label: "Profile" },
   ];
