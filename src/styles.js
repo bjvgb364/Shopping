@@ -13,7 +13,7 @@ const styles = {
   statusBar: { height: 24, display: "flex", alignItems: "center", justifyContent: "center" },
   statusTime: { fontSize: 12, fontWeight: 700, color: INK },
   screenArea: { flex: 1, display: "flex", flexDirection: "column", overflow: "hidden" },
-  screen: { flex: 1, display: "flex", flexDirection: "column", background: CREAM, overflow: "hidden" },
+  screen: { flex: 1, display: "flex", flexDirection: "column", background: CREAM, overflow: "hidden", position: "relative" },
 
   splashWrap: { flex: 1, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", background: RED, height: "100%" },
   splashLogo: { fontSize: 56 },
