@@ -1,13 +1,17 @@
 import { useState } from "react";
-import { Check, X, Plus, Settings2 } from "lucide-react";
-import { CREAM, MUTED } from "../theme";
-import { COLES_SPECIALS } from "../data";
+import { Check, X, Plus, Settings2, ShoppingBag, ExternalLink, ArrowLeft } from "lucide-react";
+import { CREAM, MUTED, INK, RED, GREEN } from "../theme";
+import { COLES_SPECIALS, guessEmoji } from "../data";
 import styles from "../styles";
+
+const COLES_SEARCH_BASE = "https://shop.coles.com.au/a/national/everything/search/";
 
 export function ShoppingScreen({ list, usuals, toggleItem, removeItem, addItem, addUsual, dismissUsual, onManageRegulars }) {
   const [newItem, setNewItem] = useState("");
   const [confirmingUsual, setConfirmingUsual] = useState(null);
   const [addedSpecials, setAddedSpecials] = useState({});
+  const [showFinalize, setShowFinalize] = useState(false);
+  const [sentToColes, setSentToColes] = useState(false);
 
   const handleAdd = () => { if (!newItem.trim()) return; addItem(newItem.trim()); setNewItem(""); };
   const categories = [...new Set(list.map((i) => i.category))];
@@ -16,6 +20,15 @@ export function ShoppingScreen({ list, usuals, toggleItem, removeItem, addItem, 
     if (addedSpecials[special.id]) return;
     addItem(special.name, "Coles Special");
     setAddedSpecials({ ...addedSpecials, [special.id]: true });
+  };
+
+  const uncheckedItems = list.filter((i) => !i.checked);
+
+  const sendToColes = () => {
+    setSentToColes(true);
+    uncheckedItems.forEach((item) => {
+      window.open(COLES_SEARCH_BASE + encodeURIComponent(item.name), "_blank");
+    });
   };
 
   return (
@@ -112,6 +125,83 @@ export function ShoppingScreen({ list, usuals, toggleItem, removeItem, addItem, 
           })}
         </div>
       </div>
+
+      {list.length > 0 && (
+        <div style={styles.finalizeBar}>
+          <button style={styles.finalizeBtn} onClick={() => setShowFinalize(true)}>
+            <ShoppingBag size={18} color={CREAM} /> Finalise list ({uncheckedItems.length})
+          </button>
+        </div>
+      )}
+
+      {showFinalize && (
+        <div style={styles.modalOverlay} onClick={() => { setShowFinalize(false); setSentToColes(false); }}>
+          <div style={styles.modalSheet} onClick={(e) => e.stopPropagation()}>
+            <div style={styles.modalHandle} />
+
+            {sentToColes ? (
+              <>
+                <button style={{ ...styles.iconBtn, marginBottom: 12 }} onClick={() => { setShowFinalize(false); setSentToColes(false); }}>
+                  <ArrowLeft size={16} color={INK} />
+                </button>
+                <h2 style={styles.modalTitle}>Opened in Coles Online</h2>
+                <p style={styles.modalSub}>
+                  We've opened a Coles Online search tab for each of your {uncheckedItems.length} item{uncheckedItems.length === 1 ? "" : "s"}. Tap each link below if a tab didn't open, then add the product to your Coles cart.
+                </p>
+                <div style={styles.colesBanner}>
+                  <div style={styles.colesBannerLogo}>C</div>
+                  <div style={styles.colesBannerText}>
+                    On each Coles page, tap "Add" to put the item in your cart, then check out through the Coles app or website.
+                  </div>
+                </div>
+                <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+                  {uncheckedItems.map((item) => (
+                    <a key={item.id} style={styles.colesItemLink} href={COLES_SEARCH_BASE + encodeURIComponent(item.name)} target="_blank" rel="noopener noreferrer">
+                      <span style={styles.colesItemEmoji}>{guessEmoji(item.name)}</span>
+                      <span style={styles.colesItemName}>{item.name}</span>
+                      <ExternalLink size={14} color={MUTED} />
+                    </a>
+                  ))}
+                </div>
+              </>
+            ) : (
+              <>
+                <h2 style={styles.modalTitle}>Finalise your list</h2>
+                <p style={styles.modalSub}>
+                  {uncheckedItems.length} item{uncheckedItems.length === 1 ? "" : "s"} to buy. Send them all to Coles Online — we'll open a search page for each item so you can add them to your Coles cart.
+                </p>
+
+                {uncheckedItems.length === 0 ? (
+                  <p style={styles.emptyStateText}>All items are checked off — your list is done!</p>
+                ) : (
+                  <>
+                    <div style={styles.modalItemList}>
+                      {uncheckedItems.map((item) => (
+                        <div key={item.id} style={styles.modalItemRow}>
+                          <span style={styles.modalItemEmoji}>{guessEmoji(item.name)}</span>
+                          <span style={styles.modalItemName}>{item.name}</span>
+                          {(item.forRecipe || item.reason) && <span style={styles.modalItemTag}>{item.forRecipe || item.reason}</span>}
+                        </div>
+                      ))}
+                    </div>
+
+                    <div style={styles.colesBanner}>
+                      <div style={styles.colesBannerLogo}>C</div>
+                      <div style={styles.colesBannerText}>
+                        This opens Coles Online search for each item. You'll add them to your cart and check out through Coles — KitchenAI doesn't handle payment or delivery.
+                      </div>
+                    </div>
+
+                    <button style={styles.colesSendBtn} onClick={sendToColes}>
+                      <ShoppingBag size={18} color={CREAM} /> Send to Coles Online
+                    </button>
+                  </>
+                )}
+              </>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 }

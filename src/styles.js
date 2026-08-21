@@ -303,6 +303,47 @@ const styles = {
   specialExpires: { fontSize: 9.5, color: SUB, fontWeight: 600 },
   specialAddBtn: { width: "100%", background: INK, color: CREAM, border: "none", borderRadius: 10, padding: "7px 0", fontSize: 11.5, fontWeight: 800, cursor: "pointer", marginTop: 6, display: "flex", alignItems: "center", justifyContent: "center", gap: 4 },
 
+  /* Finalise / Coles modal */
+  finalizeBar: {
+    position: "absolute", bottom: 0, left: 0, right: 0, padding: "14px 20px 22px",
+    background: `linear-gradient(to top, ${CREAM} 75%, transparent)`, display: "flex", gap: 10, zIndex: 5,
+  },
+  finalizeBtn: {
+    flex: 1, background: INK, color: CREAM, border: "none", borderRadius: 18, padding: "16px", fontSize: 15, fontWeight: 800,
+    cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 6,
+  },
+  modalOverlay: {
+    position: "absolute", inset: 0, background: "rgba(36,20,22,0.5)", zIndex: 20, display: "flex", alignItems: "flex-end",
+  },
+  modalSheet: {
+    width: "100%", background: CREAM, borderRadius: "28px 28px 0 0", padding: "24px 20px 30px",
+    maxHeight: "85%", overflowY: "auto", display: "flex", flexDirection: "column",
+  },
+  modalHandle: { width: 36, height: 4, borderRadius: 2, background: MUTED, margin: "0 auto 18px" },
+  modalTitle: { fontSize: 22, fontWeight: 800, color: INK, margin: "0 0 4px", letterSpacing: -0.4 },
+  modalSub: { fontSize: 13, color: SUB, fontWeight: 600, margin: "0 0 18px", lineHeight: 1.5 },
+  modalItemList: { display: "flex", flexDirection: "column", gap: 8, marginBottom: 20 },
+  modalItemRow: { display: "flex", alignItems: "center", gap: 10, padding: "10px 14px", background: CARD, borderRadius: 14 },
+  modalItemEmoji: { fontSize: 18 },
+  modalItemName: { flex: 1, fontSize: 14, fontWeight: 700, color: INK },
+  modalItemTag: { fontSize: 10, fontWeight: 700, color: SUB, background: SURFACE_TINT, padding: "3px 8px", borderRadius: 10 },
+  colesBanner: {
+    display: "flex", alignItems: "center", gap: 10, background: RED_SOFT, borderRadius: 16, padding: "14px 16px", marginBottom: 16,
+  },
+  colesBannerLogo: { width: 32, height: 32, borderRadius: 16, background: RED, display: "flex", alignItems: "center", justifyContent: "center", color: CREAM, fontSize: 15, fontWeight: 900, flexShrink: 0 },
+  colesBannerText: { fontSize: 12.5, color: INK, fontWeight: 600, lineHeight: 1.45 },
+  colesSendBtn: {
+    width: "100%", background: RED, color: CREAM, border: "none", borderRadius: 18, padding: "16px", fontSize: 15, fontWeight: 800,
+    cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 8, boxShadow: "0 10px 20px rgba(229,0,22,0.25)",
+  },
+  colesItemLink: {
+    display: "flex", alignItems: "center", gap: 8, padding: "11px 14px", background: CREAM, border: `1px solid ${LINE}`,
+    borderRadius: 14, cursor: "pointer", textAlign: "left", width: "100%",
+  },
+  colesItemEmoji: { fontSize: 18 },
+  colesItemName: { flex: 1, fontSize: 13.5, fontWeight: 700, color: INK },
+  colesItemHint: { fontSize: 10.5, color: SUB, fontWeight: 600 },
+
   /* Bottom nav */
   bottomNav: { display: "flex", alignItems: "center", justifyContent: "space-around", padding: "10px 8px 18px", borderTop: `1px solid ${LINE}`, background: CREAM },
   navItem: { background: "transparent", border: "none", display: "flex", flexDirection: "column", alignItems: "center", gap: 3, cursor: "pointer", padding: 4, minWidth: 44 },
