@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Check, X, Plus, Settings2, ShoppingBag, ExternalLink, ArrowLeft } from "lucide-react";
-import { CREAM, MUTED, INK, RED, GREEN } from "../theme";
+import { CREAM, MUTED, INK, RED, RED_DARK } from "../theme";
 import { COLES_SPECIALS, guessEmoji } from "../data";
 import styles from "../styles";
 
@@ -117,7 +117,7 @@ export function ShoppingScreen({ list, usuals, toggleItem, removeItem, addItem, 
                 </div>
                 <span style={styles.specialSave}>Save {saving}%</span>
                 <span style={styles.specialExpires}>Until {s.expires}</span>
-                <button style={{ ...styles.specialAddBtn, ...(added ? { background: GREEN } : {}) }} onClick={() => addSpecial(s)} disabled={added}>
+                <button style={{ ...styles.specialAddBtn, ...(added ? { background: RED_DARK } : {}) }} onClick={() => addSpecial(s)} disabled={added}>
                   {added ? "Added ✓" : "+ Add to list"}
                 </button>
               </div>

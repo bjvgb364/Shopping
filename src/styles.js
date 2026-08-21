@@ -179,7 +179,7 @@ const styles = {
   matchBannerSub: { fontSize: 12, fontWeight: 600, opacity: 0.85 },
   detailSectionTitle: { fontSize: 15, fontWeight: 800, color: INK, margin: "22px 0 10px" },
   haveNeedWrap: { display: "flex", flexWrap: "wrap", gap: 8 },
-  haveChip: { display: "flex", alignItems: "center", gap: 5, background: "#E9F3ED", color: GREEN, fontSize: 12.5, fontWeight: 700, padding: "7px 12px", borderRadius: 20 },
+  haveChip: { display: "flex", alignItems: "center", gap: 5, background: RED_SOFT, color: RED_DARK, fontSize: 12.5, fontWeight: 700, padding: "7px 12px", borderRadius: 20 },
   needChip: { display: "flex", alignItems: "center", gap: 5, background: SURFACE_TINT, color: RED_DARK, fontSize: 12.5, fontWeight: 700, padding: "7px 12px", borderRadius: 20 },
   equipChip: { background: CARD, color: INK, fontSize: 12.5, fontWeight: 700, padding: "7px 12px", borderRadius: 20 },
   addMissingBtn: {
@@ -206,7 +206,7 @@ const styles = {
   cookNavRow: { display: "flex", gap: 12, padding: "16px 20px 30px" },
   cookNavBtn: { width: 52, height: 52, borderRadius: 16, background: "rgba(255,255,255,0.08)", border: "none", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", flexShrink: 0 },
   cookNextBtn: { flex: 1, background: RED, color: CREAM, border: "none", borderRadius: 16, fontSize: 15, fontWeight: 800, display: "flex", alignItems: "center", justifyContent: "center", gap: 6, cursor: "pointer" },
-  cookFinishBtn: { flex: 1, background: GREEN, color: CREAM, border: "none", borderRadius: 16, fontSize: 15, fontWeight: 800, display: "flex", alignItems: "center", justifyContent: "center", gap: 6, cursor: "pointer" },
+  cookFinishBtn: { flex: 1, background: RED, color: CREAM, border: "none", borderRadius: 16, fontSize: 15, fontWeight: 800, display: "flex", alignItems: "center", justifyContent: "center", gap: 6, cursor: "pointer" },
 
   /* Shopping */
   usualsScroll: { display: "flex", gap: 10, overflowX: "auto", paddingBottom: 6, marginBottom: 18 },
@@ -217,7 +217,7 @@ const styles = {
   usualActionRow: { display: "flex", gap: 5, marginTop: 4 },
   usualAddBtn: { flex: 1, background: RED, color: CREAM, border: "none", borderRadius: 10, padding: "6px 0", fontSize: 11.5, fontWeight: 800, cursor: "pointer" },
   usualMoreBtn: { background: "transparent", border: "none", color: SUB, fontSize: 15, fontWeight: 800, cursor: "pointer", padding: "0 4px" },
-  usualMiniBtn: { flex: 1, background: GREEN, color: CREAM, border: "none", borderRadius: 10, padding: "6px 4px", fontSize: 10, fontWeight: 800, cursor: "pointer" },
+  usualMiniBtn: { flex: 1, background: RED, color: CREAM, border: "none", borderRadius: 10, padding: "6px 4px", fontSize: 10, fontWeight: 800, cursor: "pointer" },
   usualMiniBtnGhost: { flex: 1, background: "transparent", border: `1px solid ${SUB}`, color: SUB, borderRadius: 10, padding: "6px 4px", fontSize: 10, fontWeight: 800, cursor: "pointer" },
   emptyStateText: { fontSize: 13.5, color: SUB, textAlign: "center", padding: "30px 20px", lineHeight: 1.6 },
   shoppingCategoryLabel: { fontSize: 11.5, fontWeight: 800, color: SUB, letterSpacing: 0.6, marginBottom: 8 },
@@ -235,7 +235,7 @@ const styles = {
   regularMeta: { fontSize: 10.5, color: SUB, fontWeight: 600 },
   regularZonePicker: { display: "flex", gap: 4 },
   regularZoneChip: { background: "transparent", border: `1px solid ${LINE_STRONG}`, color: SUB, borderRadius: 9, padding: "4px 8px", fontSize: 10, fontWeight: 800, cursor: "pointer" },
-  regularZoneChipActive: { background: INK, border: `1px solid ${INK}`, color: CREAM },
+  regularZoneChipActive: { background: RED, border: `1px solid ${RED}`, color: CREAM },
   manageRegularsBtn: {
     width: "100%", background: "transparent", border: `1.5px dashed ${LINE_STRONG}`, color: SUB, borderRadius: 14,
     padding: "10px 12px", fontSize: 12.5, fontWeight: 800, cursor: "pointer", marginBottom: 18,
@@ -259,7 +259,7 @@ const styles = {
     padding: "10px 12px", marginTop: 8,
   },
   missingRegularName: { flex: 1, fontSize: 14, fontWeight: 800, color: INK },
-  missingRegularBtn: { background: GREEN, color: CREAM, border: "none", borderRadius: 10, padding: "6px 10px", fontSize: 11, fontWeight: 800, cursor: "pointer" },
+  missingRegularBtn: { background: RED, color: CREAM, border: "none", borderRadius: 10, padding: "6px 10px", fontSize: 11, fontWeight: 800, cursor: "pointer" },
 
   /* Profile */
   card: { background: CARD, borderRadius: 18, padding: 16 },
@@ -299,9 +299,9 @@ const styles = {
   specialPriceRow: { display: "flex", alignItems: "baseline", gap: 6, marginTop: 2 },
   specialNow: { fontSize: 18, fontWeight: 900, color: RED },
   specialWas: { fontSize: 11, color: MUTED, fontWeight: 600, textDecoration: "line-through" },
-  specialSave: { fontSize: 9.5, fontWeight: 800, color: GREEN, background: "#E9F3ED", padding: "2px 6px", borderRadius: 8, alignSelf: "flex-start", marginTop: 2 },
+  specialSave: { fontSize: 9.5, fontWeight: 800, color: RED_DARK, background: RED_SOFT, padding: "2px 6px", borderRadius: 8, alignSelf: "flex-start", marginTop: 2 },
   specialExpires: { fontSize: 9.5, color: SUB, fontWeight: 600 },
-  specialAddBtn: { width: "100%", background: INK, color: CREAM, border: "none", borderRadius: 10, padding: "7px 0", fontSize: 11.5, fontWeight: 800, cursor: "pointer", marginTop: 6, display: "flex", alignItems: "center", justifyContent: "center", gap: 4 },
+  specialAddBtn: { width: "100%", background: RED, color: CREAM, border: "none", borderRadius: 10, padding: "7px 0", fontSize: 11.5, fontWeight: 800, cursor: "pointer", marginTop: 6, display: "flex", alignItems: "center", justifyContent: "center", gap: 4 },
 
   /* Finalise / Coles modal */
   finalizeBar: {
@@ -309,7 +309,7 @@ const styles = {
     background: `linear-gradient(to top, ${CREAM} 75%, transparent)`, display: "flex", gap: 10, zIndex: 5,
   },
   finalizeBtn: {
-    flex: 1, background: INK, color: CREAM, border: "none", borderRadius: 18, padding: "16px", fontSize: 15, fontWeight: 800,
+    flex: 1, background: RED, color: CREAM, border: "none", borderRadius: 18, padding: "16px", fontSize: 15, fontWeight: 800,
     cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 6,
   },
   modalOverlay: {
@@ -351,7 +351,7 @@ const styles = {
   navScanBtn: { width: 44, height: 44, borderRadius: 22, background: RED, display: "flex", alignItems: "center", justifyContent: "center", marginTop: -22, boxShadow: "0 8px 16px rgba(232,72,58,0.35)", border: `4px solid ${CREAM}` },
 
   toast: {
-    position: "absolute", bottom: 100, left: "50%", transform: "translateX(-50%)", background: INK, color: CREAM,
+    position: "absolute", bottom: 100, left: "50%", transform: "translateX(-50%)", background: RED_DARK, color: CREAM,
     padding: "10px 18px", borderRadius: 30, fontSize: 13, fontWeight: 700, boxShadow: "0 8px 20px rgba(0,0,0,0.2)", whiteSpace: "nowrap", zIndex: 10,
   },
 };
